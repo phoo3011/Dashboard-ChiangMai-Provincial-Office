@@ -14,11 +14,9 @@ import {
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { icon: LayoutDashboard, label: "ภาพรวม", path: "/" },
-  { icon: MapPin, label: "โซน", path: "/zones" },
-  { icon: Bell, label: "การแจ้งเตือน", path: "/alerts" },
-  { icon: FileText, label: "รายงาน", path: "/reports" },
-  { icon: Settings, label: "ตั้งค่า", path: "/settings" },
+  { icon: LayoutDashboard, label: "Overview", path: "/" },
+  { icon: MapPin, label: "Zone", path: "/zones" },
+  { icon: Bell, label: "Notification", path: "/alerts" },
 ];
 
 export function DashboardSidebar() {
@@ -39,8 +37,8 @@ export function DashboardSidebar() {
         </div>
         {!collapsed && (
           <div className="animate-fade-in">
-            <h1 className="font-semibold text-sidebar-primary">CM Dashboard</h1>
-            <p className="text-xs text-sidebar-foreground/60">Camera Monitoring</p>
+            <h1 className="font-semibold text-sidebar-primary">Provincial Office</h1>
+            <p className="text-xs text-sidebar-foreground/60">Chiang Mai</p>
           </div>
         )}
       </div>
@@ -80,7 +78,7 @@ export function DashboardSidebar() {
           ) : (
             <>
               <ChevronLeft className="w-4 h-4" />
-              <span className="animate-fade-in">ย่อเมนู</span>
+              <span className="animate-fade-in">Collapse</span>
             </>
           )}
         </button>
@@ -95,7 +93,7 @@ export function DashboardSidebar() {
           {!collapsed && (
             <div className="flex-1 min-w-0 animate-fade-in">
               <p className="text-sm font-medium truncate">Alex Chen</p>
-              <p className="text-xs text-sidebar-foreground/60">ผู้ดูแลระบบ</p>
+              <p className="text-xs text-sidebar-foreground/60">Administrator</p>
             </div>
           )}
           {!collapsed && (

@@ -9,6 +9,12 @@ const cameras = [
   { id: 4, name: "Camera 4", zone: "Zone B - ทางเดินหลัก", status: "online" },
   { id: 5, name: "Camera 5", zone: "Zone C - คลังสินค้า", status: "online" },
   { id: 6, name: "Camera 6", zone: "Zone C - ประตูหลัง", status: "warning" },
+  { id: 7, name: "Camera 7", zone: "Zone A - ระเบียงชั้น 2", status: "online" },
+  { id: 8, name: "Camera 8", zone: "Zone A - ระเบียงชั้น 3", status: "online" },
+  { id: 9, name: "Camera 9", zone: "Zone B - บันไดเหล็ก", status: "online" },
+  { id: 10, name: "Camera 10", zone: "Zone B - ห้องสตรี", status: "warning" },
+  { id: 11, name: "Camera 11", zone: "Zone C - ทางออกฉุกเฉิน", status: "online" },
+  { id: 12, name: "Camera 12", zone: "Zone C - ทางสอบเทียม", status: "offline" },
 ];
 
 const statusConfig = {

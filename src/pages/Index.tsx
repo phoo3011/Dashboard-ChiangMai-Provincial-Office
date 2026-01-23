@@ -4,16 +4,48 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { TimeFilter } from "@/components/dashboard/TimeFilter";
 import { EventChart } from "@/components/dashboard/EventChart";
 import { RecentEvents } from "@/components/dashboard/RecentEvents";
-import { CameraStatus } from "@/components/dashboard/CameraStatus";
 import { HeatmapPlaceholder } from "@/components/dashboard/HeatmapPlaceholder";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import {
   Users,
   UserX,
   Car,
   AlertTriangle,
+  MapPin,
+  Camera,
 } from "lucide-react";
 
+const zoneData = [
+  {
+    id: "zone-a",
+    name: "Zone A",
+    description: "Main entrance & parking",
+    cameras: 4,
+    events: 23,
+    people: 145,
+  },
+  {
+    id: "zone-b",
+    name: "Zone B",
+    description: "Meeting room & main corridor",
+    cameras: 4,
+    events: 15,
+    people: 89,
+  },
+  {
+    id: "zone-c",
+    name: "Zone C",
+    description: "Storage & back door",
+    cameras: 4,
+    events: 9,
+    people: 56,
+  },
+];
+
 const Index = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex min-h-screen w-full bg-background">
       <DashboardSidebar />
@@ -65,14 +97,66 @@ const Index = () => {
             <HeatmapPlaceholder />
           </div>
 
-          {/* Camera Status & Recent Events */}
-          <div className="grid gap-6 grid-cols-1 lg:grid-cols-3">
-            <div className="lg:col-span-1">
-              <CameraStatus />
-            </div>
-            <div className="lg:col-span-2">
-              <RecentEvents />
-            </div>
+          {/* Zones Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MapPin className="w-5 h-5" />
+                Zone Status
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+                {zoneData.map((zone) => (
+                  <div
+                    key={zone.id}
+                    className="p-4 rounded-lg border hover:border-primary/50 transition-all hover:shadow-lg cursor-pointer group"
+                    onClick={() => navigate("/zones")}
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <h3 className="font-semibold text-foreground group-hover:text-primary">
+                          {zone.name}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {zone.description}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-sm">
+                      <div className="flex items-center gap-1 text-muted-foreground">
+                        <Camera className="w-4 h-4" />
+                        <span>{zone.cameras} cameras</span>
+                      </div>
+                      <div className="text-center">
+                        <span className="text-lg font-semibold text-foreground">
+                          {zone.events}
+                        </span>
+                        <p className="text-xs text-muted-foreground">events</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-lg font-semibold text-foreground">
+                          {zone.people}
+                        </span>
+                        <p className="text-xs text-muted-foreground">people</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Button
+                className="w-full mt-4"
+                onClick={() => navigate("/zones")}
+                variant="outline"
+              >
+                View Detailed Zones
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Recent Events */}
+          <div className="grid gap-6 grid-cols-1">
+            <RecentEvents />
           </div>
         </main>
       </div>

@@ -10,7 +10,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StatCard } from "@/components/dashboard/StatCard";
-import { Users, AlertTriangle, TrendingUp, Clock, Camera } from "lucide-react";
+import { Users, AlertTriangle, TrendingUp, Clock, Camera, Wifi, WifiOff, AlertCircle } from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { Camera as CameraType } from "@/types/camera";
 import {
   BarChart,
   Bar,
@@ -27,25 +31,46 @@ const zoneData = {
   "zone-a": {
     name: "Zone A",
     description: "ทางเข้าหลัก และลานจอดรถ",
-    cameras: 2,
+    cameras: 4,
     events: 23,
     people: 145,
   },
   "zone-b": {
     name: "Zone B",
     description: "ห้องประชุม และทางเดินหลัก",
-    cameras: 2,
+    cameras: 4,
     events: 15,
     people: 89,
   },
   "zone-c": {
     name: "Zone C",
     description: "คลังสินค้า และประตูหลัง",
-    cameras: 2,
+    cameras: 4,
     events: 9,
-    people: 45,
+    people: 56,
   },
 };
+
+const camerasData = {
+  "zone-a": [
+    { id: 1, name: "Camera 1", zone: "Zone A - ทางเข้าหลัก", status: "online", resolution: "4K", fps: 30 },
+    { id: 2, name: "Camera 2", zone: "Zone A - ลานจอดรถ", status: "online", resolution: "2K", fps: 25 },
+    { id: 7, name: "Camera 7", zone: "Zone A - ระเบียงชั้น 2", status: "online", resolution: "4K", fps: 30 },
+    { id: 8, name: "Camera 8", zone: "Zone A - ระเบียงชั้น 3", status: "online", resolution: "2K", fps: 25 },
+  ] as CameraType[],
+  "zone-b": [
+    { id: 3, name: "Camera 3", zone: "Zone B - ห้องประชุม", status: "offline", resolution: "1080p", fps: 30 },
+    { id: 4, name: "Camera 4", zone: "Zone B - ทางเดินหลัก", status: "online", resolution: "4K", fps: 30 },
+    { id: 9, name: "Camera 9", zone: "Zone B - บันไดเหล็ก", status: "online", resolution: "1080p", fps: 30 },
+    { id: 10, name: "Camera 10", zone: "Zone B - ห้องสตรี", status: "warning", resolution: "4K", fps: 30 },
+  ] as CameraType[],
+  "zone-c": [
+    { id: 5, name: "Camera 5", zone: "Zone C - คลังสินค้า", status: "online", resolution: "2K", fps: 25 },
+    { id: 6, name: "Camera 6", zone: "Zone C - ประตูหลัง", status: "warning", resolution: "1080p", fps: 20 },
+    { id: 11, name: "Camera 11", zone: "Zone C - ทางออกฉุกเฉิน", status: "online", resolution: "2K", fps: 25 },
+    { id: 12, name: "Camera 12", zone: "Zone C - ทางสอบเทียม", status: "offline", resolution: "1080p", fps: 15 },
+  ] as CameraType[],
+} as const;
 
 const eventStats = [
   { name: "สัปดาห์ 1", events: 12, ratio: 8 },
@@ -74,6 +99,50 @@ const recentHistory = [
 ];
 
 const Zones = () => {
+  const [selectedZone, setSelectedZone] = useState("zone-a");
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "online":
+        return "bg-success/20 text-success border-success/30";
+      case "offline":
+        return "bg-destructive/20 text-destructive border-destructive/30";
+      case "warning":
+        return "bg-warning/20 text-warning border-warning/30";
+      default:
+        return "bg-muted/20 text-muted-foreground";
+    }
+  };
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "online":
+        return <Wifi className="w-4 h-4" />;
+      case "offline":
+        return <WifiOff className="w-4 h-4" />;
+      case "warning":
+        return <AlertCircle className="w-4 h-4" />;
+      default:
+        return <Camera className="w-4 h-4" />;
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case "online":
+        return "ออนไลน์";
+      case "offline":
+        return "ออฟไลน์";
+      case "warning":
+        return "มีปัญหา";
+      default:
+        return "ไม่ทราบ";
+    }
+  };
+
+  const currentZone = zoneData[selectedZone as keyof typeof zoneData];
+  const zoneCameras = camerasData[selectedZone as keyof typeof camerasData] || [];
+
   return (
     <div className="flex min-h-screen w-full bg-background">
       <DashboardSidebar />
@@ -87,15 +156,15 @@ const Zones = () => {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <h2 className="text-lg font-semibold">เลือกโซน</h2>
-                  <Select defaultValue="zone-a">
+                  <h2 className="text-lg font-semibold">Zone</h2>
+                  <Select value={selectedZone} onValueChange={setSelectedZone}>
                     <SelectTrigger className="w-[200px]">
-                      <SelectValue placeholder="เลือกโซน" />
+                      <SelectValue placeholder="Zone" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="zone-a">Zone A - ทางเข้าหลัก</SelectItem>
-                      <SelectItem value="zone-b">Zone B - ห้องประชุม</SelectItem>
-                      <SelectItem value="zone-c">Zone C - คลังสินค้า</SelectItem>
+                      <SelectItem value="zone-a">Zone A</SelectItem>
+                      <SelectItem value="zone-b">Zone B</SelectItem>
+                      <SelectItem value="zone-c">Zone C</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -105,11 +174,47 @@ const Zones = () => {
                       <SelectValue placeholder="ช่วงเวลา" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="daily">รายวัน</SelectItem>
-                      <SelectItem value="monthly">รายเดือน</SelectItem>
+                      <SelectItem value="daily">วัน</SelectItem>
+                      <SelectItem value="monthly">เดือน</SelectItem>
+                      <SelectItem value="yearly">ปี</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Cameras in Zone */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base font-semibold">
+                กล้องใน {currentZone.name}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                {zoneCameras.map((camera) => (
+                  <div
+                    key={camera.id}
+                    className="p-4 rounded-lg border hover:border-primary/50 transition-all hover:shadow-lg"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2.5 rounded-lg ${getStatusColor(camera.status).replace("text-", "bg-").replace("border", "")}`}>
+                          {getStatusIcon(camera.status)}
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground text-sm">
+                            {camera.name}
+                          </h3>
+                        </div>
+                      </div>
+                      <Badge className={getStatusColor(camera.status)}>
+                        {getStatusLabel(camera.status)}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
@@ -118,12 +223,12 @@ const Zones = () => {
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <StatCard
               title="จำนวนกล้องในโซน"
-              value="2 ตัว"
+              value={`${currentZone.cameras} ตัว`}
               icon={<Camera className="w-5 h-5" />}
             />
             <StatCard
               title="จำนวนคนเข้าโซน"
-              value="145 คน"
+              value={`${currentZone.people} คน`}
               change={8.3}
               changeLabel="คิดเป็นเปอร์เซ็นต์"
               icon={<Users className="w-5 h-5" />}
@@ -136,7 +241,7 @@ const Zones = () => {
             />
             <StatCard
               title="เหตุการณ์ในโซน"
-              value="23 ครั้ง"
+              value={`${currentZone.events} ครั้ง`}
               change={5.2}
               icon={<AlertTriangle className="w-5 h-5" />}
               variant="warning"
