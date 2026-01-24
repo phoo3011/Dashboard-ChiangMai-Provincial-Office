@@ -28,47 +28,65 @@ import {
 } from "recharts";
 
 const zoneData = {
-  "zone-a": {
-    name: "Zone A",
-    description: "ทางเข้าหลัก และลานจอดรถ",
-    cameras: 4,
-    events: 23,
-    people: 145,
+  "zone-1": {
+    name: "Zone 1",
+    description: "ประตูทางเข้าหลัก",
+    cameras: 3,
+    events: 28,
+    people: 156,
   },
-  "zone-b": {
-    name: "Zone B",
-    description: "ห้องประชุม และทางเดินหลัก",
+  "zone-2": {
+    name: "Zone 2",
+    description: "ประตูทางเข้าทิศเหนือ",
+    cameras: 2,
+    events: 12,
+    people: 64,
+  },
+  "zone-3": {
+    name: "Zone 3",
+    description: "ประตูทางเข้าทิศใต้",
+    cameras: 2,
+    events: 18,
+    people: 87,
+  },
+  "zone-4": {
+    name: "Zone 4",
+    description: "บริเวณโดยรอบ",
     cameras: 4,
     events: 15,
-    people: 89,
+    people: 92,
   },
-  "zone-c": {
-    name: "Zone C",
-    description: "คลังสินค้า และประตูหลัง",
-    cameras: 4,
-    events: 9,
-    people: 56,
+  "zone-5": {
+    name: "Zone 5",
+    description: "พื้นที่เข้า-ออกมอเตอร์ไซต์",
+    cameras: 1,
+    events: 22,
+    people: 103,
   },
 };
 
 const camerasData = {
-  "zone-a": [
-    { id: 1, name: "Camera 1", zone: "Zone A - ทางเข้าหลัก", status: "online", resolution: "4K", fps: 30 },
-    { id: 2, name: "Camera 2", zone: "Zone A - ลานจอดรถ", status: "online", resolution: "2K", fps: 25 },
-    { id: 7, name: "Camera 7", zone: "Zone A - ระเบียงชั้น 2", status: "online", resolution: "4K", fps: 30 },
-    { id: 8, name: "Camera 8", zone: "Zone A - ระเบียงชั้น 3", status: "online", resolution: "2K", fps: 25 },
+  "zone-1": [
+    { id: 1, name: "Camera 1", zone: "Zone 1 - ประตูหลัก (ซ้าย)", status: "online", resolution: "4K", fps: 30 },
+    { id: 2, name: "Camera 2", zone: "Zone 1 - ประตูหลัก (กลาง)", status: "online", resolution: "4K", fps: 30 },
+    { id: 11, name: "Camera 11", zone: "Zone 1 - ประตูหลัก (ขวา)", status: "online", resolution: "2K", fps: 25 },
   ] as CameraType[],
-  "zone-b": [
-    { id: 3, name: "Camera 3", zone: "Zone B - ห้องประชุม", status: "offline", resolution: "1080p", fps: 30 },
-    { id: 4, name: "Camera 4", zone: "Zone B - ทางเดินหลัก", status: "online", resolution: "4K", fps: 30 },
-    { id: 9, name: "Camera 9", zone: "Zone B - บันไดเหล็ก", status: "online", resolution: "1080p", fps: 30 },
-    { id: 10, name: "Camera 10", zone: "Zone B - ห้องสตรี", status: "warning", resolution: "4K", fps: 30 },
+  "zone-2": [
+    { id: 3, name: "Camera 3", zone: "Zone 2 - ประตูเหนือ (หลัก)", status: "online", resolution: "4K", fps: 30 },
+    { id: 4, name: "Camera 4", zone: "Zone 2 - ประตูเหนือ (สำรอง)", status: "online", resolution: "1080p", fps: 30 },
   ] as CameraType[],
-  "zone-c": [
-    { id: 5, name: "Camera 5", zone: "Zone C - คลังสินค้า", status: "online", resolution: "2K", fps: 25 },
-    { id: 6, name: "Camera 6", zone: "Zone C - ประตูหลัง", status: "warning", resolution: "1080p", fps: 20 },
-    { id: 11, name: "Camera 11", zone: "Zone C - ทางออกฉุกเฉิน", status: "online", resolution: "2K", fps: 25 },
-    { id: 12, name: "Camera 12", zone: "Zone C - ทางสอบเทียม", status: "offline", resolution: "1080p", fps: 15 },
+  "zone-3": [
+    { id: 5, name: "Camera 5", zone: "Zone 3 - ประตูใต้ (หลัก)", status: "online", resolution: "4K", fps: 30 },
+    { id: 6, name: "Camera 6", zone: "Zone 3 - ประตูใต้ (สำรอง)", status: "warning", resolution: "2K", fps: 25 },
+  ] as CameraType[],
+  "zone-4": [
+    { id: 8, name: "Camera 8", zone: "Zone 4 - บริเวณด้านหนึ่ง", status: "online", resolution: "2K", fps: 25 },
+    { id: 9, name: "Camera 9", zone: "Zone 4 - บริเวณด้านสอง", status: "online", resolution: "1080p", fps: 30 },
+    { id: 12, name: "Camera 12", zone: "Zone 4 - บริเวณด้านสาม", status: "online", resolution: "4K", fps: 30 },
+    { id: 13, name: "Camera 13", zone: "Zone 4 - บริเวณทางเดิน", status: "warning", resolution: "2K", fps: 25 },
+  ] as CameraType[],
+  "zone-5": [
+    { id: 10, name: "Camera 10", zone: "Zone 5 - จุดมอเตอร์ไซต์", status: "online", resolution: "1080p", fps: 30 },
   ] as CameraType[],
 } as const;
 
@@ -99,7 +117,7 @@ const recentHistory = [
 ];
 
 const Zones = () => {
-  const [selectedZone, setSelectedZone] = useState("zone-a");
+  const [selectedZone, setSelectedZone] = useState("zone-1");
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -162,9 +180,11 @@ const Zones = () => {
                       <SelectValue placeholder="Zone" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="zone-a">Zone A</SelectItem>
-                      <SelectItem value="zone-b">Zone B</SelectItem>
-                      <SelectItem value="zone-c">Zone C</SelectItem>
+                      <SelectItem value="zone-1">Zone 1 - ประตูทางเข้าหลัก</SelectItem>
+                      <SelectItem value="zone-2">Zone 2 - ประตูทางเข้าทิศเหนือ</SelectItem>
+                      <SelectItem value="zone-3">Zone 3 - ประตูทางเข้าทิศใต้</SelectItem>
+                      <SelectItem value="zone-4">Zone 4 - บริเวณโดยรอบ</SelectItem>
+                      <SelectItem value="zone-5">Zone 5 - พื้นที่เข้า-ออกมอเตอร์ไซต์</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
