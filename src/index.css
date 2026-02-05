@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Camera Monitoring Dashboard Design System
+   Professional analytics dashboard with dark teal sidebar and clean light interface
+*/
+
+@layer base {
+  :root {
+    /* Main backgrounds */
+    --background: 180 10% 97%;
+    --foreground: 180 25% 15%;
+
+    /* Cards and surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 180 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 180 25% 15%;
+
+    /* Primary - Dark Teal (sidebar, main actions) */
+    --primary: 175 43% 19%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Light teal tint */
+    --secondary: 175 30% 94%;
+    --secondary-foreground: 175 43% 19%;
+
+    /* Muted - Subtle grays */
+    --muted: 180 10% 94%;
+    --muted-foreground: 180 10% 45%;
+
+    /* Accent - Coral/Salmon for alerts and highlights */
+    --accent: 10 80% 70%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Success - Green for positive metrics */
+    --success: 152 60% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning - Amber */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Destructive - Red for errors */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Border and inputs */
+    --border: 180 10% 90%;
+    --input: 180 10% 90%;
+    --ring: 175 43% 19%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar specific */
+    --sidebar-background: 175 43% 19%;
+    --sidebar-foreground: 175 20% 90%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 175 43% 19%;
+    --sidebar-accent: 175 40% 25%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 175 40% 25%;
+    --sidebar-ring: 175 60% 60%;
+    --sidebar-muted: 175 30% 30%;
+
+    /* Chart colors */
+    --chart-1: 175 43% 35%;
+    --chart-2: 175 35% 50%;
+    --chart-3: 10 80% 70%;
+    --chart-4: 152 60% 45%;
+    --chart-5: 38 92% 50%;
+  }
+
+  .dark {
+    --background: 180 20% 8%;
+    --foreground: 180 10% 95%;
+
+    --card: 180 20% 12%;
+    --card-foreground: 180 10% 95%;
+
+    --popover: 180 20% 12%;
+    --popover-foreground: 180 10% 95%;
+
+    --primary: 175 50% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 175 30% 20%;
+    --secondary-foreground: 175 30% 90%;
+
+    --muted: 180 15% 18%;
+    --muted-foreground: 180 10% 60%;
+
+    --accent: 10 80% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --success: 152 60% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 180 15% 22%;
+    --input: 180 15% 22%;
+    --ring: 175 50% 45%;
+
+    --sidebar-background: 180 25% 10%;
+    --sidebar-foreground: 180 10% 85%;
+    --sidebar-primary: 175 50% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 180 20% 18%;
+    --sidebar-accent-foreground: 180 10% 95%;
+    --sidebar-border: 180 20% 18%;
+    --sidebar-ring: 175 50% 45%;
+    --sidebar-muted: 180 15% 25%;
+
+    --chart-1: 175 50% 45%;
+    --chart-2: 175 40% 55%;
+    --chart-3: 10 80% 60%;
+    --chart-4: 152 60% 40%;
+    --chart-5: 38 92% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer components {
+  /* Stat card hover effect */
+  .stat-card {
+    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5;
+  }
+
+  /* Table row hover */
+  .table-row-hover {
+    @apply transition-colors hover:bg-muted/50;
+  }
+
+  /* Sidebar link active state */
+  .sidebar-link-active {
+    @apply bg-sidebar-accent text-sidebar-accent-foreground;
+  }
+
+  /* Badge variants */
+  .badge-success {
+    @apply bg-success/10 text-success border-success/20;
+  }
+
+  .badge-warning {
+    @apply bg-warning/10 text-warning border-warning/20;
+  }
+
+  .badge-danger {
+    @apply bg-destructive/10 text-destructive border-destructive/20;
+  }
+
+  .badge-accent {
+    @apply bg-accent/10 text-accent border-accent/20;
+  }
+}
